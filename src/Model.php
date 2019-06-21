@@ -89,7 +89,7 @@ class Model extends Database implements ICrud
         // Collect all properties of the model sub class.
         foreach ($this->properties as $iteration => $property) {
 
-            /* Do not add some whitespace in , comma character below of conditional statement if you must change the format in the rtrim method at the end of this loop. */
+            /* Do not add some whitespace in , comma character below of conditional statement if you did, change the format in the rtrim method at the end of this loop. */
             if ( $property !== 'id' )
                 $statement .= "`${property}` = '{$this->$property}',";
         }
