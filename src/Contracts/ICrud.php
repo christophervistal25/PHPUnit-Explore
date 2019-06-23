@@ -1,7 +1,7 @@
 <?php
 namespace App\Contracts;
 
-interface ICrud
+interface ModelBehavior
 {
     public function create(array $items);
     public function find(int $id, array $columns = []);

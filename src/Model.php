@@ -1,11 +1,11 @@
 <?php
 namespace App;
 
-use App\Contracts\ICrud;
+use App\Contracts\ModelBehavior;
 use App\Helpers\QueryBuilder;
 use PDO;
 
-class Model extends Database implements ICrud
+class Model extends Database implements ModelBehavior
 {
     // Intentionally default for testing purpose.
     public $table = 'users';
