@@ -4,12 +4,13 @@ namespace App;
 use App\Contracts\ModelBehavior;
 use App\Helpers\QueryBuilder;
 use PDO;
+use Exception;
 
 class Model extends Database implements ModelBehavior
 {
     // Intentionally default for testing purpose.
-    public $table = 'users';
-    public $properties = [];
+    protected $table = 'users';
+    protected $properties = [];
     private $database;
 
     public function __construct()
@@ -77,6 +78,10 @@ class Model extends Database implements ModelBehavior
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
+        if ( !$result ) {
+            throw new Exception('Can\'t find the record with id ' . $id);
+        }
+
         $this->setAttributes($result);
 
         return $this;
@@ -89,7 +94,7 @@ class Model extends Database implements ModelBehavior
         // Collect all properties of the model sub class.
         foreach ($this->properties as $iteration => $property) {
 
-            /* Do not add some whitespace in , comma character below of conditional statement if you did, change the format in the rtrim method at the end of this loop. */
+            /* Do not add some whitespace in , (comma) character below of conditional statement if you did, change the format in the rtrim method at the end of this loop. */
             if ( $property !== 'id' )
                 $statement .= "`${property}` = '{$this->$property}',";
         }

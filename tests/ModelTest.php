@@ -5,6 +5,7 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use ReflectionProperty;
 use App\Model;
 
 
@@ -39,9 +40,27 @@ class ModelTest extends TestCase
     /**
      * @test
      */
+    public function TablePropertyMustBeProtected()
+    {
+        $table = new ReflectionProperty($this->model, 'table');
+        $this->assertSame(true, $table->isProtected());
+    }
+
+    /**
+     * @test
+     */
     public function itHasPropertiesProperty()
     {
         $this->assertClassHasAttribute('properties',Model::class);
+    }
+
+    /**
+     * @test
+     */
+    public function propertiesPropertyMustBeProtected()
+    {
+        $properties = new ReflectionProperty($this->model, 'properties');
+        $this->assertSame(true, $properties->isProtected());
     }
 
     /**
@@ -76,7 +95,13 @@ class ModelTest extends TestCase
         $method->setAccessible(true);
         $method->invoke($this->model);
 
-        $this->assertSame($expected, $this->model->properties);
+        $properties = new ReflectionProperty($this->model, 'properties');
+        $properties->setAccessible(true);
+
+        $this->assertSame(
+            $expected,
+            $properties->getValue($this->model)
+        );
 
     }
 
