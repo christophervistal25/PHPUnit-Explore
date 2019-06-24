@@ -29,8 +29,8 @@ class Model extends Database implements ModelBehavior
 
     private function setAttributes(array $items = [])
     {
-        foreach ($items as $properKey => $propertyValue) {
-            $this->$properKey = $propertyValue;
+        foreach ($items as $fieldName => $fieldValue) {
+            $this->$fieldName = $fieldValue;
         }
     }
 
@@ -48,8 +48,8 @@ class Model extends Database implements ModelBehavior
     public function getOne(array $columns = ['*'])
     {
         $records = $this->get();
-        $recordKey = array_rand($records);
-        return $records[$recordKey];
+        $uniqueKey = array_rand($records);
+        return $records[$uniqueKey];
     }
 
 
@@ -92,7 +92,7 @@ class Model extends Database implements ModelBehavior
         $statement = null;
 
         // Collect all properties of the model sub class.
-        foreach ($this->properties as $iteration => $property) {
+        foreach ($this->properties as $property) {
 
             /* Do not add some whitespace in , (comma) character below of conditional statement if you did, change the format in the rtrim method at the end of this loop. */
             if ( $property !== 'id' )
@@ -103,9 +103,11 @@ class Model extends Database implements ModelBehavior
 
         $statement .= " WHERE id = {$this->id} ";
 
-        $executed = $this->database->query("UPDATE {$this->table} SET {$statement} ");
+        $query = $this->database->query("
+                UPDATE {$this->table} SET {$statement}
+            ");
 
-        return (bool) $executed->rowCount() > 0;
+        return (bool) $query->rowCount() > 0;
     }
 
     public function delete()

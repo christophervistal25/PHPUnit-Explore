@@ -17,7 +17,7 @@ class Database
 
     private function connect()
     {
-        return new PDO("mysql:host={$this->server};dbname={$this->name}", $this->username, $this->password , [ PDO::MYSQL_ATTR_FOUND_ROWS => true ]);
+        return new PDO("mysql:host={$this->server};dbname={$this->name}",$this->username, $this->password,[ PDO::MYSQL_ATTR_FOUND_ROWS => true ]);
     }
 
     public function columnsIn()
@@ -30,7 +30,7 @@ class Database
                 AND TABLE_NAME = '" . $this->table . "'
             ");
 
-        while($row = $query->fetch()){
+        while($row = $query->fetch()) {
             $result[] = $row;
         }
 

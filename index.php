@@ -15,9 +15,7 @@ $user = new User();
 // Get all records of user.
 // print_r($user->get());
 
-/**
-  *  Will pick a user randomly.
- */
+// Will pick a user randomly.
 // print_r($user->getOne());
 
 // Find user
